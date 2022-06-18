@@ -1,24 +1,26 @@
 #include <MPU6050_tockn.h>
 #include <Wire.h>
-#include <Mouse.h>
+// #include <Mouse.h>
+#include "Mouse.h"
 
 MPU6050 mpu(Wire);
 
 //값을 저정
-float x = 0.0;
-float y = 0.0;
-float z = 0.0;
+float bx = 0.0;
+float by = 0.0;
+float bz = 0.0;
 
 void setup() {
   Serial.begin(19200);
   Wire.begin();
   mpu.begin();
-  mpu.calcGyroOffsets(true);
-  //mpu6050.setGyroOffsets(0.75, 0.05, 0.05);
+  // mpu.calcGyroOffsets(true);
+  mpu.setGyroOffsets(-0.57, 1.31, 1.49);
 
-  x = mpu.getAngleX();
-  y = mpu.getAngleY();
-  z = mpu.getAngleZ();
+  Mouse.begin();
+  bx = mpu.getAngleX();
+  by = mpu.getAngleY();
+  bz = mpu.getAngleZ();
 }
 
 void loop() {
@@ -27,5 +29,22 @@ void loop() {
   float ay = mpu.getAngleY();
   float az = mpu.getAngleZ();
 
+  float x = ax - bx;
+  float y = ay - by;
+  float z = az - bz;
 
+  bx = mpu.getAngleX();
+  by = mpu.getAngleY();
+  bz = mpu.getAngleZ();
+
+  Serial.print(x);
+  Serial.print(" ");
+  Serial.print(y);
+  Serial.print(" ");
+  Serial.print(z);
+  Serial.println();
+
+  Mouse.move(x, y, 0);
+
+  delay(50);
 }
