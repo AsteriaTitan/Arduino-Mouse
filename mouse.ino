@@ -6,6 +6,8 @@
 
 MPU6050 mpu(Wire);
 
+char ctrlKey = KEY_LEFT_GUI;
+
 //값을 저정
 float bx = 0.0;
 float by = 0.0;
@@ -46,7 +48,7 @@ void loop() {
   Serial.print(z);
   Serial.println();
 
-  Mouse.move(x, y, 0);
+  Mouse.move(x, y);
 
   delay(50);
 }
