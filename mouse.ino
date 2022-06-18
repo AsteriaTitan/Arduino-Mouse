@@ -2,6 +2,7 @@
 #include <Wire.h>
 // #include <Mouse.h>
 #include "Mouse.h"
+#include "Keyboard.h"
 
 MPU6050 mpu(Wire);
 
@@ -14,6 +15,7 @@ void setup() {
   Serial.begin(19200);
   Wire.begin();
   mpu.begin();
+  Keyboard.begin();
   // mpu.calcGyroOffsets(true);
   mpu.setGyroOffsets(-0.57, 1.31, 1.49);
 
